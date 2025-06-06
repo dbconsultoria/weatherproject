@@ -1,15 +1,16 @@
 import streamlit as st
-import psycopg2
-import pandas as pd
 import plotly.express as px
+import pandas as pd
+import psycopg2
 
-# Database connection config
+
+# PostgreSQL connection parameters from environment
 DB_CONFIG = {
-    'host': 'localhost',
+    'host': 'dpg-d11f2kndiees73fa6idg-a.oregon-postgres.render.com',
     'port': 5432,
     'user': 'admin',
-    'password': 'secret123',
-    'dbname': 'warehouse'
+    'password': 'xtSMPWKY7nqPrAsPE604Z8Itclh7Un1G',
+    'dbname': 'warehouse_3n51'
 }
 
 @st.cache_data
@@ -70,7 +71,7 @@ def categorize_temperature(temp):
 st.set_page_config(page_title="Weather Dashboard", layout="wide")
 st.title("🌡️ Weather Data Dashboard")
 
-tabs = st.tabs(["📋 Tables", "📊 Charts", "⚙️ Filters"])
+tabs = st.tabs(["📋 Tables", "📊 Charts", "⚙️ Filters", "👤 Rodrigo Ribeiro Gonçalves"])
 
 # === 📋 TAB 1: ALL TABLES ===
 with tabs[0]:
@@ -147,4 +148,18 @@ with tabs[2]:
         filtered_df.to_csv(index=False).encode('utf-8'),
         "filtered_weather_data.csv",
         "text/csv"
+    )
+
+# === 👤 TAB 4: PERSONAL PROFILE ===
+with tabs[3]:
+    st.subheader("👤 Rodrigo Ribeiro Gonçalves")
+    st.write("Senior Data Engineer | BI | Data Warehouse | Lakehouse | Python | SQL")
+
+    st.markdown(
+        """
+        - 🌐 [LinkedIn](https://www.linkedin.com/in/rodrigo-ribeiro-pro/)
+        - 💻 [GitHub](https://github.com/dbconsultoria)
+        - 💻 [Weather Project](https://github.com/dbconsultoria/weatherproject)
+        """,
+        unsafe_allow_html=True
     )
