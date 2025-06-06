@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project demonstrates the implementation of a complete data engineering pipeline that collects weather data, processes it through an ETL process, and stores it in a PostgreSQL database. The project leverages **Python**, **FastAPI**, **PostgreSQL**, and **Docker** to handle and expose weather data for cities in Brazil. The pipeline fetches weather data, transforms it, and loads it into a data warehouse designed to store and analyze temperature data over time.
+This project demonstrates the implementation of a complete data engineering pipeline that collects weather data, processes it through an ETL process, and stores it in a PostgreSQL database. The project leverages **Python**, **PostgreSQL**, and **Docker** to handle and expose weather data for cities in Brazil. The pipeline fetches weather data, transforms it, and loads it into a data warehouse designed to store and analyze temperature data over time.
 
 ## Project Architecture
 
@@ -11,8 +11,7 @@ The architecture follows the **ETL (Extract, Transform, Load)** pattern, utilizi
 * **Data Extraction**: Weather data is fetched via the Visual Crossing Weather API for multiple Brazilian cities.
 * **Data Transformation**: The data is cleaned and formatted in Python using Pandas before being inserted into PostgreSQL.
 * **Data Loading**: Data is loaded into a PostgreSQL database using SQL, where it is organized into multiple tables with a star schema design.
-* **API**: FastAPI is used to expose a RESTful API for querying the weather data.
-* **Docker**: The entire environment, including the FastAPI app and PostgreSQL database, is containerized using Docker.
+* **Docker**: The entire environment, including the etl app and PostgreSQL database, is containerized using Docker.
 
 ## Data Model
 
@@ -37,6 +36,26 @@ The PostgreSQL database schema is designed to store weather data in a **star sch
 
 * Several stored procedures are used to load data into dimension tables (`dim.city`, `dim.conditions`, `dim.country`, `dim.date`) and merge the temperature data into the fact table (`fact.temperature`).
 
+## Dimensional Modeling
+
+The dimensional model in this project follows a **star schema**, which is ideal for analytical workloads and reporting. It separates the data into **dimension tables** (describing the context) and a **fact table** (storing measurable events). This approach improves query performance and supports easy filtering, aggregation, and slicing of data.
+
+### Table Relationships
+
+- Each **temperature reading** in the `fact.temperature` table is linked to:
+  - a **specific city** in `dim.city`, which is related to a `dim.country`
+  - a **specific date** in `dim.date`, which includes calendar attributes
+  - a **weather condition** in `dim.conditions`, which includes descriptive information
+
+### Data Integrity Rules
+
+- The `country_name`, `city_name`, `condition_name`, and `full_date` fields are **unique** in their respective tables to avoid duplication.
+- The combination of `date_id` and `city_id` is **unique in the fact table**, ensuring that each city has only one temperature record per date.
+
+This model enables the generation of time-series analyses, condition-based aggregations, and city-wise comparisons with high flexibility and performance.
+
+A unified query (also used to power visualizations) joins all tables to produce complete weather facts enriched by date, location, and conditions.
+
 ## ETL Process
 
 The ETL process is orchestrated in Python, where:
@@ -56,13 +75,12 @@ The ETL process is orchestrated in Python, where:
 
 ## Docker Setup
 
-The project is containerized using Docker to ensure easy deployment and environment consistency. The `Dockerfile` sets up the necessary environment for running both the FastAPI application and the PostgreSQL database.
+The project is containerized using Docker to ensure easy deployment and environment consistency. The `Dockerfile` sets up the necessary environment for running the application.
 
 ### Dockerfile Overview
 
 * It uses the official Python image to install required Python dependencies.
 * The PostgreSQL instance runs locally within the Docker container, ensuring that the application can interact with the database seamlessly.
-* The FastAPI app is exposed on port `8000`.
 
 ### Running the Project with Docker
 
@@ -103,39 +121,19 @@ To run the project locally using Docker, follow these steps:
    
 ## Deployment on Render
 
-This project is deployed on **Render.com** for cloud hosting. The deployment process is automated using Docker, making it easy to deploy the application and database on Render's cloud infrastructure. The FastAPI app is accessible via a public URL, and the PostgreSQL database is managed within the Render environment.
+This project is deployed on **Render.com** for cloud hosting. The deployment process is automated using Docker, making it easy to deploy the application and database on Render's cloud infrastructure. 
+The API app is accessible via a public URL and the PostgreSQL database is managed within the Render environment.
 
 ---
 
 ## API Endpoints
 
-The FastAPI app exposes the following endpoints:
+The request app exposes the following endpoints:
 
 * **GET `/weather/`**: Fetches weather data for all cities.
 * **GET `/weather/{city}`**: Fetches weather data for a specific city.
 
 For detailed API documentation, visit the `/docs` endpoint after running the app locally or on Render.
-
-## Dimensional Modeling
-
-The dimensional model in this project follows a **star schema**, which is ideal for analytical workloads and reporting. It separates the data into **dimension tables** (describing the context) and a **fact table** (storing measurable events). This approach improves query performance and supports easy filtering, aggregation, and slicing of data.
-
-### Table Relationships
-
-- Each **temperature reading** in the `fact.temperature` table is linked to:
-  - a **specific city** in `dim.city`, which is related to a `dim.country`
-  - a **specific date** in `dim.date`, which includes calendar attributes
-  - a **weather condition** in `dim.conditions`, which includes descriptive information
-
-### Data Integrity Rules
-
-- The `country_name`, `city_name`, `condition_name`, and `full_date` fields are **unique** in their respective tables to avoid duplication.
-- The combination of `date_id` and `city_id` is **unique in the fact table**, ensuring that each city has only one temperature record per date.
-
-This model enables the generation of time-series analyses, condition-based aggregations, and city-wise comparisons with high flexibility and performance.
-
-A unified query (also used to power visualizations) joins all tables to produce complete weather facts enriched by date, location, and conditions.
-
 
 ## Requirements
 
@@ -147,7 +145,7 @@ A unified query (also used to power visualizations) joins all tables to produce 
 
 ## Conclusion
 
-This project demonstrates how to create a complete ETL pipeline, manage data with a star schema in PostgreSQL, and expose an API to access the processed data. It serves as an excellent example of building scalable data engineering solutions with Python, FastAPI, PostgreSQL, and Docker.
+This project demonstrates how to create a complete ETL pipeline, manage data with a star schema in PostgreSQL, and expose an API to access the processed data. It serves as an excellent example of building scalable data engineering solutions with Python,  PostgreSQL and Docker.
 
 ---
 
