@@ -127,5 +127,5 @@ if __name__ == "__main__":
     if not df_weather.empty:
         insert_to_postgres(df_weather)
     else:
-        print("⚠ No data collected.")
+        print(" No data collected.")
     reset_and_reload_data()
