@@ -76,8 +76,23 @@ To run the project locally using Docker, follow these steps:
 
 2. **Run the Docker container**:
 
+    You can create a .env file to execute the docker locally in a proper way like this.
+
+   ```bash
+    VC_API_KEY=your visual crossing key
+    DB_HOST=your pg database
+    DB_PORT=5432
+    DB_USER=your db user
+    DB_PASSWORD=your db password
+    DB_NAME=database name
+    ```
+
    ```bash
    docker run -it weather-etl bash
+   ```
+   To input the information from a env file
+   ```bash
+   docker run --env-file .env weather-etl
    ```
 
 3. **Run Streamlit Locally**:
@@ -100,6 +115,27 @@ The FastAPI app exposes the following endpoints:
 * **GET `/weather/{city}`**: Fetches weather data for a specific city.
 
 For detailed API documentation, visit the `/docs` endpoint after running the app locally or on Render.
+
+## Dimensional Modeling
+
+The dimensional model in this project follows a **star schema**, which is ideal for analytical workloads and reporting. It separates the data into **dimension tables** (describing the context) and a **fact table** (storing measurable events). This approach improves query performance and supports easy filtering, aggregation, and slicing of data.
+
+### Table Relationships
+
+- Each **temperature reading** in the `fact.temperature` table is linked to:
+  - a **specific city** in `dim.city`, which is related to a `dim.country`
+  - a **specific date** in `dim.date`, which includes calendar attributes
+  - a **weather condition** in `dim.conditions`, which includes descriptive information
+
+### Data Integrity Rules
+
+- The `country_name`, `city_name`, `condition_name`, and `full_date` fields are **unique** in their respective tables to avoid duplication.
+- The combination of `date_id` and `city_id` is **unique in the fact table**, ensuring that each city has only one temperature record per date.
+
+This model enables the generation of time-series analyses, condition-based aggregations, and city-wise comparisons with high flexibility and performance.
+
+A unified query (also used to power visualizations) joins all tables to produce complete weather facts enriched by date, location, and conditions.
+
 
 ## Requirements
 
