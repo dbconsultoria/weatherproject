@@ -1,7 +1,3 @@
-Here is a suggested `README.md` file for your data engineering project portfolio:
-
----
-
 # Data Engineering Portfolio: Weather Data ETL Pipeline
 
 ## Overview
