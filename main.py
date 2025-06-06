@@ -1,17 +1,23 @@
+import os
 import requests
 import pandas as pd
 import psycopg2
 from datetime import datetime, timedelta
+from dotenv import load_dotenv
 
-API_KEY = '2SWEQ4J9GH75XDPXDY56V3FED'  # Replace with your actual Visual Crossing API key
+# Load environment variables from a .env file (optional but recommended for local dev)
+load_dotenv()
 
-# PostgreSQL connection parameters
+# API key from environment
+API_KEY = os.getenv("VC_API_KEY")
+
+# PostgreSQL connection parameters from environment
 DB_CONFIG = {
-    'host': 'localhost',
-    'port': 5432,
-    'user': 'admin',
-    'password': 'secret123',
-    'dbname': 'warehouse'
+    'host': os.getenv('DB_HOST'),
+    'port': int(os.getenv('DB_PORT', 5432)),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'dbname': os.getenv('DB_NAME')
 }
 
 # Brazilian state capitals
