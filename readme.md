@@ -104,7 +104,8 @@ To run the project locally using Docker, follow these steps:
     DB_PASSWORD=your db password
     DB_NAME=database name
     ```
-
+    
+    For local executions only 
    ```bash
    docker run -it weather-etl bash
    ```
@@ -113,11 +114,10 @@ To run the project locally using Docker, follow these steps:
    docker run --env-file .env weather-etl
    ```
 
-3. **Run Streamlit Locally**:
+3. **The Streamlit Showcase**:
    
-    ```bash
-    streamlit run .\streamlit.py
-   ```
+You can visit the Streamlit app here https://weatherstreamlit.onrender.com/
+Source code for that https://github.com/dbconsultoria/weatherstreamlit
    
 ## Deployment on Render
 
