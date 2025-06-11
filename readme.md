@@ -116,8 +116,8 @@ To run the project locally using Docker, follow these steps:
 
 3. **The Streamlit Showcase**:
    
-You can visit the Streamlit app here https://weatherstreamlit.onrender.com/
-Source code for that https://github.com/dbconsultoria/weatherstreamlit
+* You can visit the Streamlit app for Data Visualization here https://weatherstreamlit.onrender.com/
+* Source code for that https://github.com/dbconsultoria/weatherstreamlit
    
 ## Deployment on Render
 
