@@ -141,6 +141,9 @@ For detailed API documentation, visit the `/docs` endpoint after running the app
 * Python 3.9+
 * PostgreSQL
 
+# Diagram
+
+![Arquitetura do Projeto Weather](diagram.png)
 ---
 
 ## Conclusion
