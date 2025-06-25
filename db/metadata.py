@@ -1,11 +1,11 @@
 import psycopg2
 
 DB_CONFIG = {
-    'host': 'localhost',
-    'port': 5432,
-    'user': 'admin',
-    'password': 'secret123',
-    'dbname': 'warehouse'
+    'host': os.getenv('DB_HOST'),
+    'port': int(os.getenv('DB_PORT', 5432)),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'dbname': os.getenv('DB_NAME')
 }
 
 def export_metadata(filename="database_metadata.sql"):

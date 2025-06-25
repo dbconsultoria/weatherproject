@@ -6,11 +6,11 @@ import psycopg2
 
 # PostgreSQL connection parameters from environment
 DB_CONFIG = {
-    'host': 'dpg-d11f2kndiees73fa6idg-a.oregon-postgres.render.com',
-    'port': 5432,
-    'user': 'admin',
-    'password': 'xtSMPWKY7nqPrAsPE604Z8Itclh7Un1G',
-    'dbname': 'warehouse_3n51'
+    'host': os.getenv('DB_HOST'),
+    'port': int(os.getenv('DB_PORT', 5432)),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'dbname': os.getenv('DB_NAME')
 }
 
 @st.cache_data
